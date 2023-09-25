@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pessoas_equipamentos', function (Blueprint $table) {
+        Schema::create('pessoaequipamento', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pessoa_id');
             $table->unsignedBigInteger('equipamento_id');

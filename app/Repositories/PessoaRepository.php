@@ -11,4 +11,8 @@ class PessoaRepository extends AbstractRepository
     public static function findBySetor(string $setor){
         return self::loadModel()::query()->where(['setor' => $setor])->first();
     }
+
+    public static function findByName(string $name){
+        return self::loadModel()::query()->where(['nome' => $name])->first();
+    }
 }

@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pessoas/{pessoa}/edit', [PessoasController::class, 'edit'])->name('pessoa.edit');
     Route::delete('/pessoas/{pessoa}', [PessoasController::class, 'destroy'])->name('pessoa.destroy');
     Route::post('/pessoas', [PessoasController::class, 'create'])->name('pessoa.create');
+    Route::post('/pessoas/{pessoa}/edit', [PessoasController::class, 'temEquipamento'])->name('pessoa.update');
+    Route::delete('/pessoas/{pessoa}/edit/{equipamento}', [PessoasController::class, 'retirarEquipamento'])->name('detach.destroy');
 
     Route::get('/equipamentos/lista', [EquipamentosController::class, 'list'])->name('equipamento.index');
     Route::get('/equipamentos', [EquipamentosController::class, 'index'])->name('equipamento.new');

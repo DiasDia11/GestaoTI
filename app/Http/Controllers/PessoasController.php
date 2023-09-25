@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\EquipamentoRepository;
 use App\Repositories\PessoaRepository;
 use Illuminate\Http\Request;
 
@@ -55,12 +56,28 @@ class PessoasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PessoaRepository $model,string $id)
+    public function edit(EquipamentoRepository $equipamento,PessoaRepository $model,string $id)
     {
+        $equipamentos = $equipamento->all();
         $pessoa = $model->find($id);
-        return view('pessoas.edit', compact('pessoa'));
+        $equipamentosUtilizados = $pessoa->equipamentos;
+
+        return view('pessoas.edit', compact('pessoa','equipamentosUtilizados', 'equipamentos'));
     }
 
+    public function temEquipamento(PessoaRepository $pessoa,EquipamentoRepository $equipamento,Request $request){
+
+        $pessoa = $pessoa->findByName($request->nome);
+        $equipamento = $equipamento->find($request->equipamento);
+
+        if (!$pessoa || !$equipamento) {
+            return redirect()->back()->with('error', 'Pessoa ou equipamento não encontrado.');
+        }
+
+        $pessoa->equipamentos()->attach($equipamento);
+
+    return redirect()->back()->with('success', 'Equipamento associado à pessoa com sucesso.');
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -69,12 +86,20 @@ class PessoasController extends Controller
         //
     }
 
+    public function retirarEquipamento(PessoaRepository $model,string $id, string $idEquipamento){
+        $pessoa = $model->find($id);
+        $pessoa->equipamentos()->detach($idEquipamento);
+        return redirect()->back()->with('success', 'Equipamento desassociado com Sucesso!');
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(PessoaRepository $model,string $id)
     {
-        $model->delete($id);
+        $pessoa = $model->find($id);
+
+        $pessoa->equipamentos()->detach();
+        $pessoa->delete($id);
         return redirect()->route('pessoa.index')->with('success', 'Pessoa excluida com Sucesso!');
     }
 }

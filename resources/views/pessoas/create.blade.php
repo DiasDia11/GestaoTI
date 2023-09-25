@@ -14,6 +14,7 @@
                 <form method="post" action="{{ route('pessoa.create') }}" class="mt-6 space-y-6">
                     @csrf
 
+
                     <div>
                         <x-input-label for="nome" :value="__('Nome')" />
                         <x-text-input id="nome" name="nome" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />

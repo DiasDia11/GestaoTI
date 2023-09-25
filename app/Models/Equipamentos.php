@@ -15,4 +15,9 @@ class Equipamentos extends Model
         'empresa',
         'marca'
     ];
+
+    public function pessoas()
+    {
+    return $this->belongsToMany(Pessoas::class, 'PessoaEquipamento', 'equipamento_id', 'pessoa_id');
+    }
 }

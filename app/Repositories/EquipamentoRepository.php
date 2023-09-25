@@ -15,4 +15,5 @@ class EquipamentoRepository extends AbstractRepository
     public static function findByNome(string $nome){
         return self::loadModel()::query()->where(['nome' => $nome])->first();
     }
+
 }
