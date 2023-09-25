@@ -11,8 +11,8 @@ class Equipamentos extends Model
 
     protected $fillable = [
         'nome',
-        'quantidade',
         'modelo',
-        'empresa'
+        'empresa',
+        'marca'
     ];
 }

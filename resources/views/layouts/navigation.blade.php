@@ -64,11 +64,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('pessoa.index')">
+                        <x-dropdown-link :href="route('pessoa.new')">
                             {{ __('Registar') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('pessoa.index')">
                             {{ __('Listar') }}
                         </x-dropdown-link>
                     </x-slot>
@@ -87,11 +87,11 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('equipamento.new')">
                             {{ __('Registar') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('equipamento.index')">
                             {{ __('Listar') }}
                         </x-dropdown-link>
                     </x-slot>

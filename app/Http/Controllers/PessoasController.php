@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\PessoaRepository;
 use Illuminate\Http\Request;
 
 class PessoasController extends Controller
@@ -14,12 +15,25 @@ class PessoasController extends Controller
         return view('pessoas.create');
     }
 
+    public function list(PessoaRepository $model)
+    {
+        $pessoas = $model::all();
+        return view('pessoas.list',['pessoas' => $pessoas]);
+
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(PessoaRepository $model, Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nome' => 'required',
+            'setor' => 'required',
+        ]);
+        $model::create($validatedData);
+        return view('pessoas.create');
     }
 
     /**
@@ -41,9 +55,10 @@ class PessoasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(PessoaRepository $model,string $id)
     {
-        //
+        $pessoa = $model->find($id);
+        return view('pessoas.edit', compact('pessoa'));
     }
 
     /**
@@ -57,8 +72,9 @@ class PessoasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(PessoaRepository $model,string $id)
     {
-        //
+        $model->delete($id);
+        return redirect()->route('pessoa.index')->with('success', 'Pessoa excluida com Sucesso!');
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('equipamentos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->integer('quantidade');
+            $table->string('marca');
             $table->string('modelo');
             $table->string('empresa');
             $table->timestamps();
