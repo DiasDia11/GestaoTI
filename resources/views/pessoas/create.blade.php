@@ -11,6 +11,17 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Nova Pessoa') }}
                 </h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @elseif (session('denied'))
+                    <div class="alert alert-danger">
+                        {{ session('denied') }}
+                    </div>
+                    @endif
+                </h2>
                 <form method="post" action="{{ route('pessoa.create') }}" class="mt-6 space-y-6">
                     @csrf
 
@@ -19,6 +30,12 @@
                         <x-input-label for="nome" :value="__('Nome')" />
                         <x-text-input id="nome" name="nome" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
                         <x-input-error class="mt-2" :messages="$errors->get('nome')" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="sobrenome" :value="__('Sobrenome')" />
+                        <x-text-input id="sobrenome" name="sobrenome" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+                        <x-input-error class="mt-2" :messages="$errors->get('sobrenome')" />
                     </div>
 
                     <div>

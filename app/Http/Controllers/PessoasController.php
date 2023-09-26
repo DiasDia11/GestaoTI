@@ -18,6 +18,7 @@ class PessoasController extends Controller
 
     public function list(PessoaRepository $model)
     {
+
         $pessoas = $model::all();
         return view('pessoas.list',['pessoas' => $pessoas]);
 
@@ -29,20 +30,16 @@ class PessoasController extends Controller
      */
     public function create(PessoaRepository $model, Request $request)
     {
+        if($model->findByName($request->nome)){
+            return redirect()->back()->with('denied', 'Pessoa já cadastrada anteriormente.');
+        }
         $validatedData = $request->validate([
             'nome' => 'required',
+            'sobrenome' => 'required',
             'setor' => 'required',
         ]);
         $model::create($validatedData);
-        return view('pessoas.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return redirect()->back()->with('success', 'Pessoa cadastrada com sucesso.');
     }
 
     /**
@@ -50,7 +47,7 @@ class PessoasController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -65,9 +62,9 @@ class PessoasController extends Controller
         return view('pessoas.edit', compact('pessoa','equipamentosUtilizados', 'equipamentos'));
     }
 
-    public function temEquipamento(PessoaRepository $pessoa,EquipamentoRepository $equipamento,Request $request){
+    public function store(PessoaRepository $pessoa,EquipamentoRepository $equipamento,Request $request,string $id){
 
-        $pessoa = $pessoa->findByName($request->nome);
+        $pessoa = $pessoa->find($id);
         $equipamento = $equipamento->find($request->equipamento);
 
         if (!$pessoa || !$equipamento) {
@@ -81,9 +78,15 @@ class PessoasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PessoaRepository $model,Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'nome' => 'required',
+            'sobrenome' => 'required',
+            'setor' => 'required',
+        ]);
+        $model::update($id,$validatedData);
+        return redirect()->back()->with('success', 'Usuário Atualizado com Sucesso!');
     }
 
     public function retirarEquipamento(PessoaRepository $model,string $id, string $idEquipamento){

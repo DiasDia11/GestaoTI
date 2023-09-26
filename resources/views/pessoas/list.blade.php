@@ -19,6 +19,7 @@
                     <thead>
                       <tr>
                         <th>Nome</th>
+                        <th>Sobrenome</th>
                         <th>Setor</th>
                         <th>Opções</th>
                       </tr>
@@ -27,6 +28,7 @@
                         @foreach ($pessoas as $pessoa)
                             <tr>
                                 <td>{{$pessoa->nome}}</td>
+                                <td>{{$pessoa->sobrenome}}</td>
                                 <td>{{$pessoa->setor}}</td>
                                 <td style="display: flex; justify-content: end">
                                     <a href=" {{ route('pessoa.edit', $pessoa )}}">

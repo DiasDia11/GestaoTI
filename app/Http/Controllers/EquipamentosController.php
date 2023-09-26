@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\PessoaRepository;
 use App\Repositories\EquipamentoRepository;
 use Illuminate\Http\Request;
 
@@ -32,9 +33,9 @@ class EquipamentosController extends Controller
             'modelo' => 'required',
             'marca' => 'required'
         ]);
+
         $nomeExist = $model->findByNome($request->nome);
-        $empresaExist = $model->findByEmpresa($request->empresa);
-        if($nomeExist && $empresaExist){
+        if($nomeExist->empresa == $request->empresa && $nomeExist->modelo == $request->modelo){
             return redirect()->route('equipamento.create')->with('denied', 'Equipamento Já Cadastrado anteriormente');
         }
         $model::create($validatedData);
@@ -52,26 +53,43 @@ class EquipamentosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EquipamentoRepository $model,string $id)
+    public function show(EquipamentoRepository $model)
     {
-        $equipamento = $model::find($id);
-        dd($equipamento);
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(EquipamentoRepository $repository,PessoaRepository $model,string $id)
     {
+        $equipamento = $repository->find($id);
+        $pessoas = $model->all();
+        $pessoas = $equipamento->pessoas;
 
+        return view('equipamentos.edit', compact('pessoas', 'equipamento',));
+    }
+
+
+    public function retirarPessoa(EquipamentoRepository $model,string $id, string $idPessoa){
+        $equipamento = $model->find($id);
+        $equipamento->equipamentos()->detach($idPessoa);
+        return redirect()->back()->with('success', 'Equipamento desassociado com Sucesso!');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EquipamentoRepository $model, Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'nome' => 'required',
+            'empresa' => 'required',
+            'marca' => 'required',
+            'modelo' => 'required',
+        ]);
+        $model::update($id,$validatedData);
+        return redirect()->back()->with('success', 'Equipamento Atualizado com Sucesso!');
     }
 
     /**

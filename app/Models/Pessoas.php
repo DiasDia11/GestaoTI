@@ -12,6 +12,7 @@ class Pessoas extends Model
 
     protected $fillable = [
         'nome',
+        'sobrenome',
         'setor',
     ];
 
