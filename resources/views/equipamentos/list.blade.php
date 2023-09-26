@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Lista de Pessoas') }}
+            {{ __('Lista de Equipamentos') }}
         </h2>
     </x-slot>
     <div class="max-w-7xl mx-auto sm:px-3 lg:px-6 space-y-3">
@@ -9,34 +9,37 @@
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
             <div >
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+
                     @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
                     @endif
                 </h2>
                 <table class="table table-hover">
                     <thead>
                       <tr>
                         <th>Nome</th>
-                        <th>Sobrenome</th>
-                        <th>Setor</th>
+                        <th>Empresa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
                         <th>Opções</th>
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pessoas as $pessoa)
+                        @foreach ($equipamentos as $equipamento)
                             <tr>
-                                <td>{{$pessoa->nome}}</td>
-                                <td>{{$pessoa->sobrenome}}</td>
-                                <td>{{$pessoa->setor}}</td>
+                                <td>{{$equipamento->nome}}</td>
+                                <td>{{$equipamento->empresa}}</td>
+                                <td>{{$equipamento->marca}}</td>
+                                <td>{{$equipamento->modelo}}</td>
                                 <td style="display: flex; justify-content: end">
-                                    <a href=" {{ route('pessoa.edit', $pessoa )}}">
+                                    <a href=" {{ route('equipamento.edit', $equipamento)}}">
                                         <button class="btn btn-outline-primary">
                                             {{ __('Editar') }}
                                         </button>
                                     </a>
-                                    <form action="{{ route('pessoa.destroy', $pessoa) }}" method="POST" style="display: inline-block;">
+                                    <form action="{{ route('equipamento.destroy', $equipamento) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button class="ml-3 btn btn-outline-danger">
@@ -47,7 +50,7 @@
                             </tr>
                         @endforeach
                     </tbody>
-                </table>
+                  </table>
             </div>
         </div>
     </div>

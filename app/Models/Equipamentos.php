@@ -11,8 +11,13 @@ class Equipamentos extends Model
 
     protected $fillable = [
         'nome',
-        'quantidade',
         'modelo',
-        'empresa'
+        'empresa',
+        'marca'
     ];
+
+    public function pessoas()
+    {
+    return $this->belongsToMany(Pessoas::class, 'PessoaEquipamento', 'equipamento_id', 'pessoa_id');
+    }
 }
