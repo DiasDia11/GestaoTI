@@ -27,6 +27,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::drop('pessoaequipamento', function (Blueprint $table) {
+            $table->dropForeign(['pessoa_id']);
+            $table->dropForeign(['pessoa_id']);
+
+            $table->timestamps();
+            $table->unsignedBigInteger('equipamento_id');
+            $table->unsignedBigInteger('pessoa_id');
+            $table->id();
+        });
     }
 };
